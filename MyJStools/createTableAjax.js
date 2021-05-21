@@ -1,6 +1,19 @@
 var createTableAjax = function () {
     
-    this.GetNewTableAjax = function (content,jsonsource,tempdata,cols,namefunc=null,deltable=null,delfield=null,resend=null,edit=false,process=false,pnamefunc=null,detail=false,dmodal=null,print=false,printpage=null,red=null,orange=null,yellow=null,green=null,tid1=null,tid2=null,tid3=null) {
+    this.FileDel = function(file_del){
+        this.fileDel = file_del;
+        // var Filedel = this.fileDel;
+        // console.log(Filedel) 
+        // return Filedel;
+    }
+    //
+    this.GetNewTableAjax = function (content,jsonsource,tempdata,cols,namefunc=null,deltable=null,delfield=null,resend=null,edit=false,process=false,pnamefunc=null
+                                    ,detail=false,dmodal=null,print=false,printpage=null,red=null,orange=null,yellow=null,green=null,tid1=null,tid2=null,tid3=null) {
+                var fileDel =  this.fileDel;
+                if(fileDel==undefined){
+                    fileDel = 'DeleteFileAPI.php';
+                }
+                
                 var table = document.createElement ("table");
             	//table.border = "1px";
                 if(tid1!=null){
@@ -27,7 +40,26 @@ var createTableAjax = function () {
             	table.appendChild (tBody);
                 tBody.setAttribute("style","text-align: center");
                 var jsonsub=jsonsource.split("?");
-                $.getJSON(jsonsub[0],{data: jsonsub[1]}, function (dataTB) {
+                var form = new FormData();
+                $.each( jsonsub, function( key, value ) {
+                    if(key!=0){
+                        form.append("data"+key, value);
+                    }
+                  });
+                var settings = {
+                    type: "POST",
+                    url: jsonsub[0],
+                    async: true,
+                    crossDomain: true,
+                    data:form,
+                    contentType: false,
+                    cache: false,
+                    processData: false
+                  }
+                $.when($.ajax(settings)).then( function (dataTB, textStatus, xhr) {
+                    if(xhr.readyState==3){
+                        $('#' + content + '').html("กำลังโหลดจ้า.... ^_^ ");
+                    } 
                 var value=[];
                     if (dataTB != null && dataTB.length > 0) {
                 for (var i = 0; i < dataTB.length; i++) {
@@ -39,32 +71,7 @@ var createTableAjax = function () {
                                                 value[I]=val;
                                                 I++;
                 		});
-//                                if(status==true){
-//                                        var cellEdit = row.insertCell (-1);
-//                                        if(status==0){
-//                                        editButton = document.createElement("i");
-//					cellEdit.appendChild(editButton);
-//					editButton.setAttribute("class","fa fa-spinner fa-spin");
-//                                        editButton.setAttribute("title","รอลงทะเบียนรับ");
-//                                    }else if(status==1){
-//                                    editButton = document.createElement("i");
-//					cellEdit.appendChild(editButton);
-//					editButton.setAttribute("class","fa fa-spinner");
-//                                        editButton.setAttribute("title","กำลังดำเนินการ");
-//                                    }else if(status==2){
-//                                    editButton = document.createElement("img");
-//					cellEdit.appendChild(editButton);
-//					editButton.setAttribute("src","images/Symbol_-_Check.ico");
-//                                        editButton.setAttribute("title","สำเร็จ");
-//                                    }else if(status==3){
-//                                    editButton = document.createElement("img");
-//					cellEdit.appendChild(editButton);
-//					editButton.setAttribute("src","images/button_cancel.ico");
-//                                        editButton.setAttribute("title","ไม่สำเร็จ");
-//                                    }
-//                                        editButton.setAttribute("width","25");
-//                                        
-//                                }
+
                                 if(print==true){
                                         var cellEdit = row.insertCell (-1);
 					editButton = document.createElement("a");
@@ -94,29 +101,36 @@ var createTableAjax = function () {
                                         editButton.setAttribute("onclick","loadAjax('#index_content','"+tempdata+"','"+value[0]+"','"+pnamefunc+"');");
                                 }
                                 if(edit==true){
-                                        var cellEdit = row.insertCell (-1);
-					editButton = document.createElement("a");
-					cellEdit.appendChild(editButton);
-					editButton.innerHTML = "<img src='images/icon_set1/file_edit.ico' width='25'>";
-					editButton.setAttribute("href","#");
-                                        editButton.setAttribute("onclick","loadAjax('#index_content','"+tempdata+"','"+value[0]+"','"+namefunc+"');");
-                                        
-
-					var cellDel = row.insertCell (-1);
-					delButton = document.createElement("a");
-					cellDel.appendChild(delButton);
-					delButton.innerHTML = "<img src='images/icon_set1/file_delete.ico' width='25'>";
-					delButton.setAttribute("href","#");
-					delButton.setAttribute("onclick","DeleteData('JsonData/DeleteFile.php','"+deltable+"','"+delfield+"','"+value[0]+"','"+resend+"','html');");
+                                    var cellEdit = row.insertCell (-1);
+                                    editButton = document.createElement("a");
+                                    cellEdit.appendChild(editButton);
+                                    editButton.innerHTML = "<img src='images/icon_set1/file_edit.ico' width='25'>";
+                                    editButton.setAttribute("href","#");
+                                                        editButton.setAttribute("onclick","loadAjax('#index_content','"+tempdata+"','"+value[0]+"','"+namefunc+"');");
+                                                        
+                
+                                    var cellDel = row.insertCell (-1);
+                                    delButton = document.createElement("a");
+                                    cellDel.appendChild(delButton);
+                                    delButton.innerHTML = "<img src='images/icon_set1/file_delete.ico' width='25'>";
+                                    delButton.setAttribute("href","#");
+                                    delButton.setAttribute("onclick","DeleteData('JsonData/DeleteFile.php','"+deltable+"','"+delfield+"','"+value[0]+"','"+resend+"','html');");
                                     }
             }
-            	var container = document.getElementById (content);
-            	container.appendChild(table);
+//            	var container = document.getElementById (content);
+//            	container.appendChild(table);
+                $('#' + content + '').html(table);
+            }else{
+                $('#' + content + '').text("ไม่มีข้อมูลแสดงครับ ^_^ ");
             }
-            $("td:contains("+red+")").attr("style","background-color: #d61b1b;color: white");
+//            $("td:contains("+red+")").attr("style","background-color: #d61b1b;color: white");
+//            $("td:contains("+orange+")").attr("style","background-color: #e08002;color: white");
+//            $("td:contains("+yellow+")").attr("style","background-color: #e3fc07;");
+            //$("td:contains("+green+")").attr("style","background-color: #40ad57;color: white");
+            $("td:contains("+red+")").empty().append($("<font color='#ff0000'><span class='fa fa-times-circle fa-2x'></span></font>"));
             $("td:contains("+orange+")").attr("style","background-color: #e08002;color: white");
-            $("td:contains("+yellow+")").attr("style","background-color: #e3fc07;");
-            $("td:contains("+green+")").attr("style","background-color: #40ad57;color: white");
+            $("td:contains("+yellow+")").empty().append($("<font color='#e9b603'><span class='fa fa-exclamation-circle fa-2x'></span></font>"));
+            $("td:contains("+green+")").empty().append($("<font color='#158d06'><span class='fa fa-check-circle fa-2x'></span></font>"));
             $("#"+tid1+"").DataTable();
             $("#"+tid2+"").DataTable({
             "paging": true,
@@ -134,6 +148,7 @@ var createTableAjax = function () {
             "info": true,
             "autoWidth": true
         });
+          
     });
     }    
 

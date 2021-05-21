@@ -11,8 +11,9 @@ $("#createModal").empty().append("<div class='modal' id='StoreModal' role='dialo
   modal.find('.modal-title').text('รายละเอียดร้าน : ลำดับที่ ' + recipient)
    $.getJSON('JsonData/comp_Data.php',{data: recipient},function (data) {
         $('span#Store_detail').empty().append("ชือร้าน : "+data[0].comp_name+"  &nbsp;&nbsp;เลขที่เสียภาษี : "+data[0].comp_vax+"<br>"
-                            +"ที่อยู่ : "+data[0].comp_address+"<br>"
-                            +"หมายเลขโทรศัพท์ : "+data[0].comp_tell+"<br>หมายเลขโทรศัพท์มือถือ : "+data[0].comp_mobile+"<br>หมายเลขโทรสาร : "+data[0].comp_fax);
+          + "ที่อยู่ : " + data[0].comp_address + "<br>"
+          +"ชื่อผู้ติดต่อ : "+data[0].comp_contact+"<br>"
+                            +"หมายเลขโทรศัพท์ : "+data[0].comp_tell+"<br>หมายเลขโทรศัพท์มือถือ : "+data[0].comp_mobile+"<br>หมายเลขโทรสาร : "+data[0].comp_fax+"<br>E-mail : "+data[0].comp_email);
 
     });
 

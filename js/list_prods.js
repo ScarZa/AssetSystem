@@ -5,7 +5,8 @@ function ListProds (content,id=null) {
                                     "<ol class='breadcrumb'><li><a href='index.html'><i class='หน้าหลัก'></i> หน้าหลัก</a></li>"+
                                     "<li class='active'><i class='fa fa-wrench'></i> รายการครุภัณฑ์</li></ol>"+
                                     //"<div id='menu-mate_type'><a href='#' id='comp'>คอมพิวเตอร์</a> <a href='#' id='office'>สำนักงาน</a> <a href='#' id='total'>ทั้งหมด</a></div><br>"+
-                                    "<div class='row col-lg-3 col-md-3 col-sm-12'><select name='menu-mate_type' class='form-control select2' id='menu-mate_type' required></select></div><br><br>"+
+                                    "<div class='row col-lg-3 col-md-3 col-sm-12'><select name='menu-mate_type' class='form-control select2' id='menu-mate_type' required></select></div>"+
+                                    "<div class='row col-lg-3 col-md-3 col-sm-12'><select name='menu-dep' class='form-control select2' id='menu-dep' required></select></div><br><br>"+
                                     "<div class='row'><div class='col-md-12'><div class='box box-primary box-solid'>"+
                                     "<div class='box-header with-border'><h4 class='box-title'><i class='fa fa-star'></i> รายการครุภัณฑ์ </h4>"+
                                     "<div class='box-tools pull-right'><button type='button' class='btn btn-box-tool' data-widget='collapse'><i class='fa fa-minus'></i></button>"+
@@ -24,18 +25,22 @@ function ListProds (content,id=null) {
                             $.getJSON('JsonData/group_Data.php', function (GD) {
                                 var option="<option value=''> เลือกหมวด </option><option value='0'> ทั้งหมด </option>";
                                for (var key in GD) {
-                                         option += "$('<option value='"+GD[key].group_id+"'> "+GD[key].group_name+" </option>'),";
+                                         option += "$('<option value='"+GD[key].id+"'> "+GD[key].name+" </option>'),";
                                    }
                                    $("select#menu-mate_type").empty().append(option);
                                    $(".select2").select2();
                            }); 
+                        //    GenSelect("select#menu-mate_type", "group_Data.php", "เลือกหมวด");
+                        //    $("select#menu-mate_type").prepend("<option value='0'> ทั้งหมด</option>");
+                           GenSelect("select#menu-dep", "dep_DataSelec.php", "เลือกงาน");
                         //     $("a#comp").addClass("btn btn-success").attr("onclick","ListProds('"+content+"','10')");
                         //     $("a#office").addClass("btn btn-success").attr("onclick","ListProds('"+content+"','2')");
                              //$("a#total").addClass("btn btn-success").attr("onclick","ListProds('"+content+"','0')");
+                             var column1 = ["id","เลขครุภัณฑ์","ชื่อ","งาน","ติดตั้งเมื่อ","วันที่ย้าย","หมายเหตุ","ซ่อม","สถานะ","รายละเอียด","ประวัติการซ่อม","แก้ไข","ลบ"];
         $("select#menu-mate_type").on('change',(function(e){ e.preventDefault();
             //var idProds = id;
             $("#contentTB").empty();
-                    var column1 = ["id","เลขครุภัณฑ์","ชื่อ","งาน","ติดตั้งเมื่อ","วันที่ย้าย","หมายเหตุ","ซ่อม","สถานะ","รายละเอียด","ประวัติการซ่อม","แก้ไข","ลบ"];
+            $("#contentTB").html('<center><i class="fa fa-spinner fa-pulse" style="font-size:48px"></i></center><br>');    
                     var CTb = new createTableAjax();
                 if($("#menu-mate_type").val() == '0'){
                     CTb.GetNewTableAjax('contentTB','JsonData/DT_LP.php','JsonData/tempSendData.php',column1
@@ -45,5 +50,22 @@ function ListProds (content,id=null) {
                     CTb.GetNewTableAjax('contentTB','JsonData/DT_LP.php?'+$("#menu-mate_type").val(),'JsonData/tempSendData.php',column1
                     ,'AddProds','pd_product','pd_id','content/list_prods.html',true,true,'HisRepair',true,'photoPDModal',false,null,'ส่งคืน',null,null,'ปรกติ','dbtb');
         }
-}));   
+
+        $("select#menu-dep").on('change',(function(e){ //e.preventDefault();
+                console.log($("#menu-mate_type").val());console.log($("#menu-dep").val());
+                $("#contentTB").empty();
+                $("#contentTB").html('<center><i class="fa fa-spinner fa-pulse" style="font-size:48px"></i></center><br>');        
+                        var CTb = new createTableAjax();
+                    if($("#menu-mate_type").val() == '0'){
+                        CTb.GetNewTableAjax('contentTB','JsonData/DT_LP2(dep).php?'+$("#menu-dep").val(),'JsonData/tempSendData.php',column1
+                        ,'AddProds','pd_product','pd_id','content/list_prods.html',true,true,'HisRepair',true,'photoPDModal',false,null,'ส่งคืน',null,null,'ปรกติ','dbtb');
+                }
+                else{ 
+                        CTb.GetNewTableAjax('contentTB','JsonData/DT_LP2(dep).php?'+$("#menu-dep").val()+'?'+$("#menu-mate_type").val(),'JsonData/tempSendData.php',column1
+                        ,'AddProds','pd_product','pd_id','content/list_prods.html',true,true,'HisRepair',true,'photoPDModal',false,null,'ส่งคืน',null,null,'ปรกติ','dbtb');
+            }
+        }));
+}));  
+
+
         }

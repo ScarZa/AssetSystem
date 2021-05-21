@@ -32,9 +32,11 @@ function AddStore (content,id=null) {
                  $("#SC_content").append($("<div class='form-group'>ชื่อร้าน : <INPUT TYPE='text' NAME='comp_name' id='comp_name' class='form-control' placeholder='ระบุชื่อร้าน' required></div>")
                                         ,$("<div class='form-group'>เลขที่เสียภาษี : <INPUT TYPE='text' NAME='comp_vax' id='comp_vax' class='form-control' placeholder='ระบุเลขที่เสียภาษี'></div>")
                                         ,$("<div class='form-group'>ที่อยู่ร้าน : <textarea class='form-control' style='width: 100%' COLS='100%' rows='2' placeholder='ระบุที่อยู่ร้าน' name='comp_address' id='comp_address'></textarea></div>")
+                                        ,$("<div class='form-group'>ชื่อผู้ติดต่อ : <INPUT TYPE='text' NAME='comp_contact' id='comp_contact' class='form-control' placeholder='ระบุชื่อผู้ติดต่อ'></div>")
                                         ,$("<div class='form-group'>หมายเลขโทรศัพท์ : <INPUT TYPE='text' NAME='comp_tell' id='comp_tell' class='form-control' placeholder='ระบุหมายเลขโทรศัพท์'></div>")
                                         ,$("<div class='form-group'>หมายเลขโทรศัพท์มือถือ : <INPUT TYPE='text' NAME='comp_mobile' id='comp_mobile' class='form-control' placeholder='ระบุหมายเลขโทรศัพท์มือถือ'></div>")
-                                        ,$("<div class='form-group'>หมายเลขโทรสาร : <INPUT TYPE='text' NAME='comp_fax' id='comp_fax' class='form-control' placeholder='ระบุหมายเลขโทรสาร'></div>"));
+                                        ,$("<div class='form-group'>หมายเลขโทรสาร : <INPUT TYPE='text' NAME='comp_fax' id='comp_fax' class='form-control' placeholder='ระบุหมายเลขโทรสาร'></div>")
+                                        ,$("<div class='form-group'>E-mail : <INPUT TYPE='email' NAME='comp_email' id='comp_email' class='form-control' placeholder='ระบุ E-mail'></div>"));
                                         
             $("div#SC_content").append("<input type='hidden' id='method' name='method' value='add_store'>");                
             $("div#SC_content").append("<div class='col-md-12' align='center'><button type='submit' class='btn btn-primary' id='SCsubmit'>บันทึก</button></div>");
@@ -64,11 +66,13 @@ function AddStore (content,id=null) {
                 $.getJSON('JsonData/comp_Data.php',{data: idsymp.data}, function (data) { 
         
                 $("#SC_content").append($("<div class='form-group'>ชื่อร้าน : <INPUT TYPE='text' NAME='comp_name' id='comp_name' class='form-control' placeholder='ระบุชื่อร้าน' required></div>")
-                                        ,$("<div class='form-group'>เลขที่เสียภาษี : <INPUT TYPE='text' NAME='comp_vax' id='comp_vax' class='form-control' placeholder='ระบุเลขที่เสียภาษี'></div>")
-                                        ,$("<div class='form-group'>ที่อยู่ร้าน : <textarea class='form-control' style='width: 100%' COLS='100%' rows='2' placeholder='ระบุที่อยู่ร้าน' name='comp_address' id='comp_address'></textarea></div>")
-                                        ,$("<div class='form-group'>หมายเลขโทรศัพท์ : <INPUT TYPE='text' NAME='comp_tell' id='comp_tell' class='form-control' placeholder='ระบุหมายเลขโทรศัพท์'></div>")
-                                        ,$("<div class='form-group'>หมายเลขโทรศัพท์มือถือ : <INPUT TYPE='text' NAME='comp_mobile' id='comp_mobile' class='form-control' placeholder='ระบุหมายเลขโทรศัพท์มือถือ'></div>")
-                                        ,$("<div class='form-group'>หมายเลขโทรสาร : <INPUT TYPE='text' NAME='comp_fax' id='comp_fax' class='form-control' placeholder='ระบุหมายเลขโทรสาร'></div>"));
+                ,$("<div class='form-group'>เลขที่เสียภาษี : <INPUT TYPE='text' NAME='comp_vax' id='comp_vax' class='form-control' placeholder='ระบุเลขที่เสียภาษี'></div>")
+                ,$("<div class='form-group'>ที่อยู่ร้าน : <textarea class='form-control' style='width: 100%' COLS='100%' rows='2' placeholder='ระบุที่อยู่ร้าน' name='comp_address' id='comp_address'></textarea></div>")
+                ,$("<div class='form-group'>ชื่อผู้ติดต่อ : <INPUT TYPE='text' NAME='comp_contact' id='comp_contact' class='form-control' placeholder='ระบุชื่อผู้ติดต่อ'></div>")
+                ,$("<div class='form-group'>หมายเลขโทรศัพท์ : <INPUT TYPE='text' NAME='comp_tell' id='comp_tell' class='form-control' placeholder='ระบุหมายเลขโทรศัพท์'></div>")
+                ,$("<div class='form-group'>หมายเลขโทรศัพท์มือถือ : <INPUT TYPE='text' NAME='comp_mobile' id='comp_mobile' class='form-control' placeholder='ระบุหมายเลขโทรศัพท์มือถือ'></div>")
+                ,$("<div class='form-group'>หมายเลขโทรสาร : <INPUT TYPE='text' NAME='comp_fax' id='comp_fax' class='form-control' placeholder='ระบุหมายเลขโทรสาร'></div>")
+                ,$("<div class='form-group'>E-mail : <INPUT TYPE='email' NAME='comp_email' id='comp_email' class='form-control' placeholder='ระบุ E-mail'></div>"));
                                                                             
                             $("#comp_name").val(data[0].comp_name);
                             $("#comp_vax").val(data[0].comp_vax);
@@ -76,6 +80,8 @@ function AddStore (content,id=null) {
                             $("#comp_tell").val(data[0].comp_tell);
                             $("#comp_mobile").val(data[0].comp_mobile);
                             $("#comp_fax").val(data[0].comp_fax);
+                            $("#comp_contact").val(data[0].comp_contact);
+                            $("#comp_email").val(data[0].comp_email);
                                         
             $("div#SC_content").append($("<input type='hidden' id='method' name='method' value='edit_store'>")
                                         ,$("<input type='hidden' id='comp_id' name='comp_id' value='"+data[0].comp_id+"'>"));                

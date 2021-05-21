@@ -14,7 +14,7 @@ $conn_DB->conn_PDO();
 set_time_limit(0);
 $rslt = array();
 $series = array();
-$sql="SELECT pc.category_id,pg.group_name,pc.category_name,pc.gp_id,pc.cate_type,pc.cate_kind 
+$sql="SELECT pc.category_id,pg.group_name,pc.category_name,pc.gp_id,pc.cate_type,pc.cate_kind,pc.unit 
 FROM pd_category pc
 INNER JOIN pd_group pg on pg.group_id=pc.group_id
 ORDER BY pc.gp_id ASC"; 
@@ -27,6 +27,7 @@ $conn_DB->imp_sql($sql);
     $series['gp_id']= $num_risk[$i]['gp_id'];
     $series['cate_type']= $num_risk[$i]['cate_type'];
     $series['cate_kind']= $num_risk[$i]['cate_kind'];
+    $series['unit']= $num_risk[$i]['unit'];
     
     array_push($rslt, $series);    
     }

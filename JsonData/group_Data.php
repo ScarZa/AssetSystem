@@ -9,7 +9,7 @@ $read = "../connection/conn_DB.txt";
 $conn_DB->para_read($read);
 $conn_db = $conn_DB->Read_Text();
 $conn_DB->conn_PDO();
-$sql = "SELECT group_id,group_name FROM pd_group";
+$sql = "SELECT group_id as id,group_name as name FROM pd_group";
 
     $conn_DB->imp_sql($sql);
     $dep = $conn_DB->select();

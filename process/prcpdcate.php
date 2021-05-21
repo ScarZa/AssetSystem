@@ -28,8 +28,9 @@ if ($method == 'add_pdcate') {
     $gp_id = $_POST['gp_id'];
     $cate_type = $_POST['cate_type'];
     $cate_kind = $_POST['cate_kind'];
+    $unit = $_POST['unit'];
     
-    $data = array($category_name, $group_id, $gp_id, $cate_type,$cate_kind);
+    $data = array($category_name, $group_id, $gp_id, $cate_type,$cate_kind,$unit);
     $table = "pd_category";
     $add_pdcate = $connDB->insert($table, $data);
     $connDB->close_PDO();
@@ -45,10 +46,11 @@ if ($method == 'add_pdcate') {
     $gp_id = $_POST['gp_id'];
     $cate_type = $_POST['cate_type'];
     $cate_kind = $_POST['cate_kind'];
+    $unit = $_POST['unit'];
     $table = "pd_category";
     $where="category_id=:category_id";
     $execute=array(':category_id' => $category_id);
-    $data = array($category_name, $group_id, $gp_id, $cate_type,$cate_kind);
+    $data = array($category_name, $group_id, $gp_id, $cate_type,$cate_kind,$unit);
     $edit_pdcate=$connDB->update($table, $data, $where, null, $execute);
      if ($edit_pdcate == false) {
         echo "Update not complete " .$edit_pdcate->errorInfo();

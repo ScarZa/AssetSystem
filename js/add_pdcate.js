@@ -20,7 +20,7 @@ function AddPDCate (content,id=null) {
                                     "</div></div></div></div>");
                             $("h2").prepend("<img src='images/icon_set2/gear.ico' width='40'> ");
                             
-                                    var column1 = ["id.","หมวดครุภัณฑ์","ชื่อประเภทครุภัณฑ์","เลขกลุ่ม","เลขประเภท","เลขชนิด","แก้ไข","ลบ"];
+                                    var column1 = ["id.","หมวดครุภัณฑ์","ชื่อประเภทครุภัณฑ์","เลขกลุ่ม","เลขประเภท","เลขชนิด","หน่วยนับ","แก้ไข","ลบ"];
               var CTb = new createTableAjax();
               CTb.GetNewTableAjax('DSP_content','JsonData/DT_PDCate.php','JsonData/tempSendData.php',column1
               ,'AddPDCate','pd_category','category_id','content/add_pdcate.html',true,false,null,false,null,false,null,null,null,null,null,'dbtb');                    
@@ -29,14 +29,15 @@ function AddPDCate (content,id=null) {
               ,$("<div class='form-group'>ชื่อประเภทครุภัณฑ์ : <INPUT TYPE='text' NAME='category_name' id='category_name' class='form-control' placeholder='ระบุชื่อประเภทครุภัณฑ์' required></div>")
               ,$("<div class='form-group'>เลขกลุ่ม : <INPUT TYPE='text' NAME='gp_id' id='gp_id' class='form-control' placeholder='ระบุเลขกลุ่ม' required></div>")
               ,$("<div class='form-group'>เลขประเภท : <INPUT TYPE='text' NAME='cate_type' id='cate_type' class='form-control' placeholder='ระบุเลขประเภท' required></div>")
-              ,$("<div class='form-group'>เลขชนิด : <INPUT TYPE='text' NAME='cate_kind' id='cate_kind' class='form-control' placeholder='ระบุเลขชนิด' required></div>"));
+                  , $("<div class='form-group'>เลขชนิด : <INPUT TYPE='text' NAME='cate_kind' id='cate_kind' class='form-control' placeholder='ระบุเลขชนิด' required></div>")
+                  ,$("<div class='form-group'>หน่วยนับ : <INPUT TYPE='text' NAME='unit' id='unit' class='form-control' placeholder='ระบุหน่วยนับ' required></div>"));
             var iduser = id;
             if(iduser == null){                      
                         $("select#group_id").append($("<option value=''> เลือกหมวดครุภัณฑ์ </option>"));
                         $.getJSON('JsonData/group_Data.php', function (GD) {
                             for (var key in GD) {
                                 //if(LR[key].group_id==data.detail.group_id){var select='selected';}else{var select='';}
-                                      $("select#group_id").append($("<option value='"+GD[key].group_id+"'> "+GD[key].group_name+" </option>"));
+                                      $("select#group_id").append($("<option value='"+GD[key].id+"'> "+GD[key].name+" </option>"));
                             }$(".select2").select2();
                         });
                                     
@@ -77,11 +78,11 @@ function AddPDCate (content,id=null) {
         });
             }else{ 
                 $.getJSON('JsonData/detail_pdcate.php',{data: iduser.data}, function (data) {
-                                $.getJSON('JsonData/group_Data.php', function (GD) {
+                                $.getJSON('JsonData/group_Data.php', function (GD) { 
                                      var option="<option value=''> เลือกหมวดครุภัณฑ์ </option>";
-                                    for (var key in GD) {
-                                        if(GD[key].group_id==data.group_id){var select='selected';}else{var select='';}
-                                              option += "$('<option value='"+GD[key].group_id+"' "+select+"> "+GD[key].group_name+" </option>'),";
+                                    for (var key in GD) { 
+                                        if(GD[key].id == data.group_id){var select='selected';}else{var select='';}
+                                              option += "$('<option value='"+GD[key].id+"' "+select+"> "+GD[key].name+" </option>'),";
                                         }
                                         $("select#group_id").empty().append(option);
                                         $(".select2").select2();
@@ -89,7 +90,8 @@ function AddPDCate (content,id=null) {
                  $("input#category_name").attr("value",data.category_name);
                  $("input#gp_id").attr("value",data.gp_id);
                  $("input#cate_type").attr("value",data.cate_type);
-                 $("input#cate_kind").attr("value",data.cate_kind);                   
+                 $("input#cate_kind").attr("value", data.cate_kind);
+                 $("input#unit").attr("value",data.unit);   
             $("div#DUS_content").append("<input type='hidden' id='method' name='method' value='edit_pdcate'>");       
             $("div#DUS_content").append("<input type='hidden' id='category_id' name='category_id' value='"+data.category_id+"'>");   
             $("div#DUS_content").append("<div class='col-md-12' align='center'><button type='submit' class='btn btn-warning' id='USsubmit'>แก้ไข</button></div>");

@@ -29,8 +29,10 @@ if ($method == 'add_store') {
     $comp_tell = $_POST['comp_tell'];
     $comp_mobile = $_POST['comp_mobile'];
     $comp_fax = $_POST['comp_fax'];
+    $comp_contact = $_POST['comp_contact'];
+    $comp_email = $_POST['comp_email'];
     
-    $data = array($comp_name,$comp_vax,$comp_address,$comp_tell,$comp_mobile,$comp_fax);
+    $data = array($comp_name,$comp_vax,$comp_address,$comp_tell,$comp_mobile,$comp_fax,$comp_contact,$comp_email);
     $table = "se_company";
     $add_store = $connDB->insert($table, $data);
     $connDB->close_PDO();
@@ -47,12 +49,14 @@ if ($method == 'add_store') {
     $comp_tell = $_POST['comp_tell'];
     $comp_mobile = $_POST['comp_mobile'];
     $comp_fax = $_POST['comp_fax'];
+    $comp_contact = $_POST['comp_contact'];
+    $comp_email = $_POST['comp_email'];
     
     $table = "se_company";
     $where = "comp_id=:comp_id";
     $execute=array(':comp_id' => $comp_id);
-    $data = array($comp_name,$comp_vax,$comp_address,$comp_tell,$comp_mobile,$comp_fax);
-    $field=array("comp_name","comp_vax","comp_address","comp_tell","comp_mobile","comp_fax");
+    $data = array($comp_name,$comp_vax,$comp_address,$comp_tell,$comp_mobile,$comp_fax,$comp_contact,$comp_email);
+    $field=array("comp_name","comp_vax","comp_address","comp_tell","comp_mobile","comp_fax","comp_contact","comp_email");
     $edit_comp=$connDB->update($table, $data, $where, $field, $execute);    
     if ($edit_comp == false) {
         echo "Update not complete " .$edit_comp->errorInfo();
