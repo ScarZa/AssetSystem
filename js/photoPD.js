@@ -21,7 +21,7 @@ function photoPDModal(divModal = '#createModal') {
                     + "ชื่อ : " + data.name + "  &nbsp;&nbsp;ยี่ห้อ : " + data.brand + "<br>หมายเลข : " + data.serial+ "  &nbsp;&nbsp;สถานะ : " + data.pd_status + "<hr>"
                     + "<b>ข้อมูลการซื้อ</b><br>"
                     + "ผู้ขาย : "+data.comp_name+"  &nbsp;&nbsp;ราคา : "+data.price+" บาท<br>"
-                    + "ชนิดเงิน : "+data.money+"  &nbsp;&nbsp;วิธีซื้อ : "+data.mon_name+"  &nbsp;&nbsp;ปีที่ซื้อ : "+data.yearbuy+"<hr>"
+                    + "ชนิดเงิน : "+data.money+"  &nbsp;&nbsp;วิธีซื้อ : "+data.mon_name+"  &nbsp;&nbsp;ปีที่ซื้อ : "+data.yearbuy+"  <br>ปีที่หมดอายุ : "+(parseInt(data.yearbuy)+parseInt(data.group_age))+"<hr>"
                     + "<b>ข้อมูลการรับประกัน</b><br>"
                     + "เลขที่สัญญา : "+data.ct_number+"  &nbsp;&nbsp;วันที่ลงทะเบียน : "+data.regis_date+"<br>วันที่เริ่มประกัน : "+data.date_stinsur+"  &nbsp;&nbsp;จำนวนเดือนรับประกัน : "+data.nbmoth_insur+"<hr>"
                     + "<b>ข้อมูลสถานที่</b><br>"

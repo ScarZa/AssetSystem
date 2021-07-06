@@ -14,7 +14,7 @@ $conn_DB->conn_PDO();
 //$rslt=array();
 $result=array();
 $data = isset($_GET['data'])?$_GET['data']:$_POST['data'];
-$sql="SELECT pd.pd_number,pg.group_name,pc.category_name,pd.name,pd.brand,pd.serial,ps.pd_status
+$sql="SELECT pd.pd_number,pg.group_name,pg.group_age,pc.category_name,pd.name,pd.brand,pd.serial,ps.pd_status
 ,sc.comp_name,ROUND(pd.price)as price,tm.name as money,sm.mon_name,pd.yearbuy,pd.ct_number,pd.regis_date,pd.date_stinsur
 ,pd.nbmoth_insur,d.depName,pp.lnstalldate,pp.movingdate,pp.note,pd.photo_pd
 ,(SELECT CONCAT(e.firstname,' ',e.lastname) FROM emppersonal e WHERE e.empno=pp.rp_person) rp_person
@@ -34,6 +34,7 @@ $result=$conn_DB->select_a($execute);
 $data= array();
 $data['pd_number'] = $result['pd_number'];
 $data['group_name'] = $result['group_name'];
+$data['group_age'] = $result['group_age'];
 $data['category_name'] = $result['category_name'];
 $data['name'] = $result['name'];
 $data['brand'] = $result['brand'];
