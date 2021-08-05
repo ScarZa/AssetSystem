@@ -24,7 +24,7 @@ $sql="SELECT pp.pd_id,pp.pd_number,pp.name,d.depName,pp2.lnstalldate,pp2.movingd
 ,COUNT(rp.repair_id) amount
 FROM pd_product pp
 INNER JOIN pd_place pp2 on pp2.pd_id=pp.pd_id
-INNER JOIN department d on d.depId=pp2.depId
+LEFT OUTER JOIN department d on d.depId=pp2.depId
 INNER JOIN pd_status ps on ps.pd_status_id=pp.status
 LEFT OUTER JOIN m_repair_pd rp on rp.pd_id=pp.pd_id
 ".$code." GROUP BY pp.pd_id"; 

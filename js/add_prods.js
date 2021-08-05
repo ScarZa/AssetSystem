@@ -23,17 +23,27 @@ function AddProds (content,id=null) {
                                     "</div></div></div></div></div></div></div><div class='col-md-12' id='DR_content'></div></div></form>");
                             $("h2").prepend("<img src='images/icon_set2/dolly.ico' width='40'> ");
             var idProds = id;
-            if(idProds == null){
+    if (idProds == null) {
+        var c = 1;
         $("#DP_content").append($("<div class='form-group'>หมวดครุภัณฑ์ : <select name='pdgroup' class='form-control select2' id='pdgroup' required></select>")
                         ,$("<div class='form-group'>ประเภทครุภัณฑ์ : <select name='pdcate' class='form-control select2' id='pdcate' required></select>")
                         //,$("<div class='form-group'>เลขครุภัณฑ์ : <INPUT TYPE='text' NAME='head_no' id='head_no' style='width: 100px'> <b id='cate_no'></b> <INPUT TYPE='text' NAME='num' id='num' style='width: 50px'></div>")
-                        ,$("<div class='form-group'>เลขครุภัณฑ์ : <INPUT TYPE='text' NAME='pd_number' id='pd_number' class='form-control'></div>")
+                        ,$("<div class='form-group'><a href='#' class='btn btn-success' id='plus-btn'><i class='fa fa-plus-circle'></i> เพิ่มครุภัณฑ์</a> <a href='#' class='btn btn-danger' id='minus-btn'><i class='fa fa-minus-circle'></i> ลบครุภัณฑ์</a></div>")
+                        ,$("<div class='form-group'>เลขครุภัณฑ์ : <div id='prod-NO'><INPUT TYPE='text' NAME='pd_number[]' id='pd_number[]' class='form-control'></div></div>")
                         ,$("<div class='form-group'>ชื่อครุภัณฑ์ : <INPUT TYPE='text' NAME='name' id='name' class='form-control' placeholder='เช่น printer brother MFC-J5910DW'></div>")
                         ,$("<div class='form-group'>ยี่ห้อ : <INPUT TYPE='text' NAME='brand' id='brand' class='form-control'></div>")
                         ,$("<div class='form-group'>หมายเลขเครื่อง : <INPUT TYPE='text' NAME='serial' id='serial' class='form-control'></div>")
                         ,$("<div class='form-group'>สถานะการใช้งาน : <select name='pd_status' class='form-control select2' id='pd_status' required></select>")
                         ,$("<div id='image_preview'><img id='previewing' src='images/icon_set2/image.ico' width='50' /></div>")
-                        ,$("<div class='form-group'>สถานะการใช้งาน : <input type='file' name='file' id='file' class='form-control' /></div></div><h4 id='loading' >loading..</h4><div id='message'></div>"));
+                        ,$("<div id='file-pics' class='form-group'>เลือกรูป : <input type='file' name='file' id='file' class='form-control' /></div></div><h4 id='loading' >loading..</h4><div id='message'></div>"));
+                
+            $('#plus-btn').click(function () {
+                $("#prod-NO").append("<INPUT TYPE='text' NAME='pd_number[]' id='pd_number[]' class='form-control'>");
+                $("#image_preview,#file-pics,#DPP_content").hide();
+            });
+            $('#minus-btn').click(function () {
+                $("div#prod-NO >input:last").remove();
+             });
                 $("select#pdgroup").append($("<option value=''> เลือกหมวดครุภัณฑ์ </option>"));
                                 $.getJSON('JsonData/group_Data.php', function (GD) {
                                     for (var key in GD) {
@@ -110,10 +120,10 @@ function AddProds (content,id=null) {
                         ,$("<div class='form-group'>เลขที่สัญญา : <input type='text' name='ct_number' id='ct_number' class='form-control'>")
                         ,$("<div class='form-group'>จำนวนเดือนที่รับประกัน : <input type='text' name='nbmoth_insur' id='nbmoth_insur' class='form-control'>"));
                         
-        $("#DPP_content").append($("<div class='form-group'>งาน : <select name='dep_id' class='form-control select2' id='dep_id' required></select>")
-                        ,$("<div class='form-group'>วันที่ติดตั้ง : <input type='text' name='datepicker3' id='datepicker3' class='form-control' readonly required>")
-                        ,$("<div class='form-group'>วันที่เคลื่อนย้าย : <input type='text' name='datepicker4' id='datepicker4' class='form-control' readonly required>")
-                        ,$("<div class='form-group'>ผู้รับผิดชอบ : <select name='rp_person' class='form-control select2' id='rp_person' required></select>")
+        $("#DPP_content").append($("<div class='form-group'>งาน : <select name='dep_id' class='form-control select2' id='dep_id'></select>")
+                        ,$("<div class='form-group'>วันที่ติดตั้ง : <input type='text' name='datepicker3' id='datepicker3' class='form-control' readonly>")
+                        ,$("<div class='form-group'>วันที่เคลื่อนย้าย : <input type='text' name='datepicker4' id='datepicker4' class='form-control' readonly>")
+                        ,$("<div class='form-group'>ผู้รับผิดชอบ : <select name='rp_person' class='form-control select2' id='rp_person'></select>")
                         ,$("<div class='form-group'>หมายเหตุ : <textarea class='form-control' style='width: 100%' COLS='100%' rows='2' placeholder='หมายเหตุ' name='note' id='note'></textarea>"));                
                         
                 $("select#dep_id").append($("<option value=''> เลือกงาน </option>"));
@@ -182,7 +192,12 @@ function AddProds (content,id=null) {
                                             alert("กรุณาระบุเลขที่สัญญาด้วยครับ");
                                             $("#ct_number").focus();
                                             e.preventDefault();
-                                        }else{
+                                    } else {
+                                        var dataForm = new FormData(this);
+                                        // console.log(dataForm)
+        for (var value of dataForm.values()) {
+            console.log(value);
+        }
         				$.ajax({
 					   type: "POST",
 					   url: "process/prcprods.php",
@@ -207,7 +222,7 @@ function AddProds (content,id=null) {
 //                                                ,movingdate:$("#datepicker4").val()
 //                                                ,rp_person:$("#rp_person").val()
 //                                                ,note:$("#note").val()
-                                            data: new FormData(this), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+                                            data: dataForm, // Data sent to server, a set of key/value pairs (i.e. form fields and values)
                                             contentType: false, // The content type used when sending data to the server.
                                             cache: false, // To unable request pages to be cached
                                             processData: false,

@@ -25,9 +25,7 @@ $method = isset($_POST['method']) ? $_POST['method'] : $_GET['method'];
 if ($method == 'add_prods') {
     $pdgroup = $_POST['pdgroup'];
     $pdcate = $_POST['pdcate'];
-    $pd_number = $_POST['pd_number'];
-    $number = explode("-", $pd_number);
-    $lnumber = explode("/", $number[3]);
+    
     $name = $_POST['name'];
     $brand = $_POST['brand'];
     $serial = $_POST['serial'];
@@ -46,13 +44,22 @@ if ($method == 'add_prods') {
     $movingdate = insert_date($_POST['datepicker4']);
     $rp_person = $_POST['rp_person'];
     $note = $_POST['note'];
+    $pd_number = $_POST['pd_number'];
+    foreach ($pd_number as $key => $value) {
+        $pd_numberArr[$key] = $_POST['pd_number'][$key];
+    
+       $pd_numberarr = $pd_numberArr[$key];
+       
+    $number = explode("-", $pd_numberarr);
+    $lnumber = explode("/", $number[3]);
+
     $newname = new upload_resizeimage("file", "../PD_imgs", "PDimage".date("dmYHis"));
     $img = $newname->upload();
     if($img != FALSE){
-    $data = array($pd_number, $number[0], $lnumber[1], $pd_status,$name, $brand,'', $com_id, $price, $montype_id
+    $data = array($pd_numberarr, $number[0], $lnumber[1], $pd_status,$name, $brand,'', $com_id, $price, $montype_id
         , $yearbuy, $mon_id, $ct_number, $pdgroup, $pdcate, $date_stinsur, $regis_date, $nbmoth_insur, $serial, $img);
     } else {
-    $data = array($pd_number, $number[0], $lnumber[1], $pd_status,$name, $brand,'', $com_id, $price, $montype_id
+    $data = array($pd_numberarr, $number[0], $lnumber[1], $pd_status,$name, $brand,'', $com_id, $price, $montype_id
         , $yearbuy, $mon_id, $ct_number, $pdgroup, $pdcate, $date_stinsur, $regis_date, $nbmoth_insur, $serial);    
     }
     $table = "pd_product";
@@ -60,6 +67,7 @@ if ($method == 'add_prods') {
     $data2 = array($add_prods,$dep_id,$lnstalldate,$movingdate,$rp_person,$note);
     $table2 = 'pd_place';
     $add_place = $connDB->insert($table2, $data2);
+    }
     $connDB->close_PDO();
     if ($add_place == false) {
         echo "Insert not complete " .$add_place->errorInfo();
